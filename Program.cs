@@ -1,5 +1,8 @@
+using ActividadAutonoma.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpClient<PokemonServices>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
