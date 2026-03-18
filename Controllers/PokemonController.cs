@@ -1,5 +1,4 @@
 ﻿using ActividadAutonoma.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ActividadAutonoma.Controllers
@@ -13,80 +12,29 @@ namespace ActividadAutonoma.Controllers
             _pokemonservices = pokemonservices;
         }
 
-        // GET: PokemonController
-        public async Task<ActionResult> Index()
+        // Lista de pokemones
+        public async Task<IActionResult> Index()
         {
-            var pokemon = await _pokemonservices.GetPokemonAsync();
+            var pokemones = await _pokemonservices.ObtenerPokemones();
+            return View(pokemones);
+        }
+
+        // Detalle de un pokemon
+        public async Task<IActionResult> Details(string nombre)
+        {
+            if (string.IsNullOrEmpty(nombre))
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            var pokemon = await _pokemonservices.ObtenerDetalle(nombre);
+
+            if (pokemon == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
             return View(pokemon);
-        }
-
-        // GET: PokemonController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: PokemonController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: PokemonController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: PokemonController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: PokemonController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: PokemonController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: PokemonController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }
