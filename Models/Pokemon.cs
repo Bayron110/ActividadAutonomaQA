@@ -5,7 +5,6 @@
         public string Name { get; set; }
         public string Url { get; set; }
 
-        // 🔥 ESTA ES LA SOLUCIÓN
         public string Image
         {
             get
